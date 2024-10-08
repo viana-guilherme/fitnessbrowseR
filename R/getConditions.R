@@ -1,3 +1,10 @@
+#' Pulls conditions available for a organism
+#'
+#' @param OrgID A valid fitness browser organism identifier (see getOrganismCodes())
+#'
+#' @param group (Optional) Show all genes with specific phenotypes for this condition
+#'
+#' @returns A table with all conditions available for OrgID or a table with all specific phenotypes for a given condition group (if group is not null)
 #' @export
 getConditions <- function(OrgID = NULL, group = NULL) {
 

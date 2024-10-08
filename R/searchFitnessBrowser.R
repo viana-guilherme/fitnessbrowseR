@@ -1,5 +1,17 @@
+#' Searches a gene (or character vector of gene IDs) in the fitness browser
+#' @param gene (Required) A string (or a character vector) with gene IDs to be searched in the fitness browser
+#'
+#' @param OrgID (Required) The ID for the organism of the query
+#'
+#' @param filter (Optional) a string used to filters the output table based on the conditions column
+#'
+#'  @returns A data frame with available fitness information for the queried genes
+#'
 #' @export
-searchFitnessBrowser <- function(gene = NULL, OrgID = NULL, conditionFilter = NULL) {
+
+utils::globalVariables(c("Organism", "OrgID", "filter", "group", "condition", "fitness", "t score"))
+
+searchFitnessBrowser <- function(gene = NULL, OrgID = NULL, filter = NULL) {
 
 
   if (is.null(gene)) {
