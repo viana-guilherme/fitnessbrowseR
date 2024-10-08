@@ -1,0 +1,50 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# fitnessbrowseR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+`fitnessbrowseR` is an R package that provides utilities for retrieving information from the [fitnessb browser](https://fit.genomics.lbl.gov/), a website that compiles data from RB-TnSeq experiments for a variety of microbial hosts and conditions (please, consider reading their [publication](https://mbio.asm.org/content/6/3/e00306-15.full)).
+
+This package is still under development, please report any bug that you find to me at my [email address](viana.guilherme@proton.me), or create a pull request.
+
+Thank you for checking `fitnessbrowseR` out!
+
+## Installation
+
+You can install the development version of fitnessbrowseR with the command below:
+
+``` r
+devtools::install_github("viana-guilherme/fitnessbrowseR")
+```
+
+## Usage
+
+The package contains three functions at this time
+```{r example}
+library(fitnessbrowseR)
+
+# prints all organism codes available in the database
+getOrganismCodes()
+
+# lists all experimental condition groups for Pseudomonas putida KT2440
+getConditions(OrgID = "Putida")
+
+# searches fitness data in all available conditions for genes PP_2675 and PP_2676 in P. putida
+searchFitnessBrowser(gene = c("PP_2675", "PP_2676"), OrgID = "Putida")
+
+```

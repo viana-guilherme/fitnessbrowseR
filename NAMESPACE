@@ -2,3 +2,4 @@
 
 export(getConditions)
 export(getOrganismCodes)
+export(searchFitnessBrowser)

@@ -9,8 +9,6 @@
 #'
 #' @export
 
-utils::globalVariables(c("Organism", "OrgID", "filter", "group", "condition", "fitness", "t score"))
-
 searchFitnessBrowser <- function(gene = NULL, OrgID = NULL, filter = NULL) {
 
 
@@ -32,7 +30,7 @@ searchFitnessBrowser <- function(gene = NULL, OrgID = NULL, filter = NULL) {
 
     message(glue::glue("retrieving fitness data for {g}"))
 
-    url <- glue::glue("https://fit.genomics.lbl.gov/cgi-bin/singleFit.cgi?orgId={OrgID}&locusId={gene}&showAll=1")
+    url <- glue::glue("https://fit.genomics.lbl.gov/cgi-bin/singleFit.cgi?orgId={OrgID}&locusId={g}&showAll=1")
 
     html <- rvest::read_html(url)
     table <-  try(rvest::html_table(html), silent = TRUE)
@@ -41,11 +39,11 @@ searchFitnessBrowser <- function(gene = NULL, OrgID = NULL, filter = NULL) {
       table <- table |>
         purrr::pluck(1) |>
         dplyr::select(group, condition, fitness, `t score`) |>
-        dplyr::mutate(gene = gene,
+        dplyr::mutate(gene = g,
                       group = dplyr::if_else(group == "", NA, group)) |>
         tidyr::fill(group)
     } else {
-      message(glue::glue("{gene} data not found in database"))
+      message(glue::glue("{g} data not found in database"))
       table <- NULL
     }
     output <- dplyr::bind_rows(output, table)
