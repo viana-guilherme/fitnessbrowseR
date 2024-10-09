@@ -111,7 +111,7 @@ the table we obtained from `searchFitnessBrowser()` as an argument.
 # generates a simple scatter plot for fitness data across every gene
 # Set interactive to TRUE to be able to check the conditions by hovering the points
 # 
-visualizeFitness(fitness_results, interactive = FALSE)
+visualizeFitness(fitness_results, interactive = TRUE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+![](man/figures/figure1.png)
