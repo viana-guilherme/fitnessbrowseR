@@ -21,7 +21,7 @@ getConditions <- function(OrgID = NULL, group = NULL) {
     html <- rvest::read_html(url)
     table <-  try(rvest::html_table(html), silent = TRUE)
 
-    if(class(table) != "try-error" & length(table) > 0) {
+    if(! inherits(table, "try-error") & length(table) > 0) {
       table <- table |>
         purrr::pluck(1)
     } else {
@@ -40,13 +40,13 @@ getConditions <- function(OrgID = NULL, group = NULL) {
     message(title)
     table <-  try(rvest::html_table(html), silent = TRUE)
 
-    if(class(table) != "try-error" & length(table) > 0) {
+    if(!inherits(table, "try-error") & length(table) > 0) {
 
       table <- table |> purrr::pluck(1)
 
       if (nrow(table) == 0) {
         message(glue::glue("No specific phenotypes for {group}"))
-        break()
+        return(invisible())
       }
 
       return(table)

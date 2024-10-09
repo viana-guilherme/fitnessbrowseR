@@ -35,7 +35,7 @@ searchFitnessBrowser <- function(gene = NULL, OrgID = NULL, filter = NULL) {
     html <- rvest::read_html(url)
     table <-  try(rvest::html_table(html), silent = TRUE)
 
-    if(class(table) != "try-error" & length(table) > 0) {
+    if(! inherits(table, "try-error") & length(table) > 0) {
       table <- table |>
         purrr::pluck(1) |>
         dplyr::select(group, condition, fitness, `t score`) |>
