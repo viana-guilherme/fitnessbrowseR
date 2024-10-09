@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-`fitnessbrowseR` is an R package that provides utilities for retrieving information from the [fitnessb browser](https://fit.genomics.lbl.gov/), a website that compiles data from RB-TnSeq experiments for a variety of microbial hosts and conditions (please, consider reading their [publication](https://mbio.asm.org/content/6/3/e00306-15.full)).
+`fitnessbrowseR` is an R package that provides utilities for retrieving information from the public version of the [fitnessb browser](https://fit.genomics.lbl.gov/), a database that compiles data from Random Barcode Transposon-site Sequencing (RB-TnSeq) experiments for a variety of microbial hosts and conditions. Please, consider reading the original [publication](https://mbio.asm.org/content/6/3/e00306-15.full) by Wetmore and colleagues for more information about the method.
 
 This package is still under development, please report any bug that you find to me at my [email address](viana.guilherme@proton.me), or create a pull request.
 
@@ -26,7 +26,7 @@ Thank you for checking `fitnessbrowseR` out!
 
 ## Installation
 
-You can install the development version of fitnessbrowseR with the command below:
+You can install the development version of `fitnessbrowseR` with the command below:
 
 ``` r
 devtools::install_github("viana-guilherme/fitnessbrowseR")
@@ -34,17 +34,41 @@ devtools::install_github("viana-guilherme/fitnessbrowseR")
 
 ## Usage
 
-The package contains three functions at this time
+At this time, the package contains a handful of functions that allow retrieving and visualizing of data from the fitness browser. For example, imagine that you are interested in understanding the changes in fitness for mutants of _Pseudomonas putida_ strain KT2440 at specific _loci_ (PP_0424, PP_1656, PP_1623, PP_2303, PP_4373), which correspond to transcriptional regulators of interest.
+
+The first step is obtaining the Fitness Browser organism ID for your desired strain. This can be done with the function `getOrganismCodes()`. Below, we're using the filter parameter to narrow the results to only organisms containing "Pseudomonas" in their names (leave this parameter blank to check all available organisms in the database).
+
 ```{r example}
 library(fitnessbrowseR)
 
-# prints all organism codes available in the database
-getOrganismCodes()
+# prints organism codes for "Pseudomonas" available in the database
+getOrganismCodes(filter = "Pseudomonas")
+```
 
-# lists all experimental condition groups for Pseudomonas putida KT2440
-getConditions(OrgID = "Putida")
+We can see that "Putida" is the organism code for KT2440 in the fitness browser database. We can now proceed to searching the fitness values for our genes of interest in all available conditions for _P. putida_ KT2440.
 
-# searches fitness data in all available conditions for genes PP_2675 and PP_2676 in P. putida
-searchFitnessBrowser(gene = c("PP_2675", "PP_2676"), OrgID = "Putida")
+_Note: please keep in mind that R is case sensitive!_
 
+```{r}
+
+# defines a vector with the genes of interest
+# (this keeps the script more organized)
+genes_of_interest <- c("PP_0424", "PP_1656", "PP_1623", "PP_2303", "PP_4373")
+
+# searches fitness data for the genes of interest in all available conditions for P. putida KT2440
+fitness_results <- searchFitnessBrowser(gene = genes_of_interest, OrgID = "Putida")
+
+dim(fitness_results)
+```
+
+We now have queried the fitness browser for all of the genes of interest that were provided. Note that PP_2303 was not found in the database, which can happen eventually. In such cases, the R console will let you know that data was not found for that gene, but this will not throw an error and this gene will simply be ignored. The function will run as normal, and return a table containing data for all of the valid genes.
+
+In this example, the resulting table is 1200 lines long, and contains five columns (which are always: group, condition, fitness, 't score' and gene). We can use any R function for exploring and processing the resulting data frame further. Alternatively, the function `visualizeFitness()` provides a quick way to identify conditions of interest with an interactive plot. To use this function, we simply pass the table we obtained from `searchFitnessBrowser()` as an argument.
+
+```{r}
+
+# generates a simple scatter plot for fitness data across every gene
+# Set interactive to TRUE to be able to check the conditions by hovering the points
+# 
+visualizeFitness(fitness_results, interactive = FALSE)
 ```

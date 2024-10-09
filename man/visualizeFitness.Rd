@@ -4,13 +4,13 @@
 \alias{visualizeFitness}
 \title{Visualize fitness values interactively}
 \usage{
-visualizeFitness(dataset)
+visualizeFitness(dataset, interactive = TRUE)
 }
 \arguments{
 \item{dataset}{A table returned by searchFitnessBrowser()}
 }
 \value{
-A ggplotly plot with the fitness scores for every gene in the dataset. Since this function uses \code{ggplotly()} under the hood, the plot is interactive and hovering the points provide more information about them
+A ggplotly plot with the fitness scores for every gene in the dataset. Since this function uses \code{ggplotly()} under the hood, setting the interactive argument to TRUE (the default) allows hovering the points to provide more information about them
 }
 \description{
 Visualize fitness values interactively

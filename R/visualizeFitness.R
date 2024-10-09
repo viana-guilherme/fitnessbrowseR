@@ -2,11 +2,11 @@
 #'
 #' @param dataset A table returned by searchFitnessBrowser()
 #'
-#' @returns A ggplotly plot with the fitness scores for every gene in the dataset. Since this function uses `ggplotly()` under the hood, the plot is interactive and hovering the points provide more information about them
+#' @returns A ggplotly plot with the fitness scores for every gene in the dataset. Since this function uses `ggplotly()` under the hood, setting the interactive argument to TRUE (the default) allows hovering the points to provide more information about them
 #'
 #' @export
 
-visualizeFitness <- function(dataset) {
+visualizeFitness <- function(dataset, interactive = TRUE) {
 
   plot <- ggplot2::ggplot(dataset, ggplot2::aes(
                                           y = gene,
@@ -27,8 +27,10 @@ visualizeFitness <- function(dataset) {
       legend.position = "none"
     )
 
-  plot_interactive <- plotly::ggplotly(plot, tooltip = c("text"))
+  if(interactive) {
+    plot <- plotly::ggplotly(plot, tooltip = c("text"))
+  }
 
-  return(plot_interactive)
+  return(plot)
 
 }
